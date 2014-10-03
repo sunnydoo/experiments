@@ -1,0 +1,80 @@
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.5-c002 1.148022, 2012/07/15-18:06:45        ">
+ <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about=""
+    xmlns:tiff="http://ns.adobe.com/tiff/1.0/"
+    xmlns:exif="http://ns.adobe.com/exif/1.0/"
+    xmlns:aux="http://ns.adobe.com/exif/1.0/aux/"
+    xmlns:xmp="http://ns.adobe.com/xap/1.0/"
+    xmlns:photoshop="http://ns.adobe.com/photoshop/1.0/"
+    xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/"
+    xmlns:stEvt="http://ns.adobe.com/xap/1.0/sType/ResourceEvent#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:crs="http://ns.adobe.com/camera-raw-settings/1.0/"
+   tiff:Make="Canon"
+   tiff:Model="Canon EOS 550D"
+   tiff:Orientation="8"
+   tiff:ImageWidth="5184"
+   tiff:ImageLength="3456"
+   exif:ExifVersion="0221"
+   exif:ExposureTime="1/30"
+   exif:ShutterSpeedValue="4906891/1000000"
+   exif:FNumber="4/1"
+   exif:ApertureValue="4/1"
+   exif:ExposureProgram="3"
+   exif:ExposureBiasValue="0/1"
+   exif:MaxApertureValue="3625/1000"
+   exif:MeteringMode="5"
+   exif:FocalLength="18/1"
+   exif:CustomRendered="0"
+   exif:ExposureMode="0"
+   exif:WhiteBalance="0"
+   exif:SceneCaptureType="0"
+   exif:FocalPlaneXResolution="5184000/905"
+   exif:FocalPlaneYResolution="3456000/595"
+   exif:FocalPlaneResolutionUnit="2"
+   exif:DateTimeOriginal="2014-08-30T15:06:00.26"
+   exif:PixelXDimension="5184"
+   exif:PixelYDimension="3456"
+   aux:SerialNumber="2235318203"
+   aux:LensInfo="18/1 55/1 0/0 0/0"
+   aux:Lens="EF-S18-55mm f/3.5-5.6 IS II"
+   aux:LensID="52"
+   aux:ImageNumber="0"
+   aux:ApproximateFocusDistance="93/100"
+   aux:FlashCompensation="0/1"
+   aux:Firmware="1.0.9"
+   xmp:ModifyDate="2014-08-30T15:06:00.26"
+   xmp:CreateDate="2014-08-30T15:06:00.26"
+   xmp:MetadataDate="2014-09-06T15:38:13+08:00"
+   photoshop:DateCreated="2014-08-30T15:06:00.26"
+   photoshop:SidecarForExtension="CR2"
+   photoshop:EmbeddedXMPDigest="00000000000000000000000000000000"
+   xmpMM:DocumentID="FA1610E50D6A604B75C49171A5379123"
+   xmpMM:OriginalDocumentID="FA1610E50D6A604B75C49171A5379123"
+   xmpMM:InstanceID="xmp.iid:3691728b-5ada-4630-8df6-85c8e32243b6"
+   dc:format="image/x-canon-cr2"
+   crs:RawFileName="_MG_4758.CR2">
+   <exif:ISOSpeedRatings>
+    <rdf:Seq>
+     <rdf:li>1600</rdf:li>
+    </rdf:Seq>
+   </exif:ISOSpeedRatings>
+   <exif:Flash
+    exif:Fired="False"
+    exif:Return="0"
+    exif:Mode="2"
+    exif:Function="False"
+    exif:RedEyeMode="False"/>
+   <xmpMM:History>
+    <rdf:Seq>
+     <rdf:li
+      stEvt:action="saved"
+      stEvt:instanceID="xmp.iid:3691728b-5ada-4630-8df6-85c8e32243b6"
+      stEvt:when="2014-09-06T15:38:13+08:00"
+      stEvt:softwareAgent="Adobe Photoshop Lightroom 6.0 Beta (Macintosh)"
+      stEvt:changed="/metadata"/>
+    </rdf:Seq>
+   </xmpMM:History>
+  </rdf:Description>
+ </rdf:RDF>
+</x:xmpmeta>
