@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner">
+            <connections>
+                <outlet property="scrollView" destination="Vnh-yS-d6G" id="i7D-6f-UsR"/>
+                <outlet property="valueLabel" destination="cvz-bz-tW3" id="0MD-ws-odY"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view autoresizesSubviews="NO" contentMode="scaleToFill" id="GbG-xS-NRE" customClass="ScrollSelectView">
+            <rect key="frame" x="0.0" y="0.0" width="500" height="100"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vnh-yS-d6G">
+                    <rect key="frame" x="0.0" y="40" width="500" height="60"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="TBA-zP-T7M"/>
+                    </constraints>
+                </scrollView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvz-bz-tW3">
+                    <rect key="frame" x="220" y="10" width="60" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="25" id="Kjd-DF-FCH"/>
+                        <constraint firstAttribute="width" constant="60" id="c37-Sz-sZ5"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.94117647058823528" green="0.8901960784313725" blue="0.75294117647058822" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ka-68-pYz">
+                    <rect key="frame" x="450" y="5" width="50" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="3of-hC-3ez"/>
+                        <constraint firstAttribute="height" constant="30" id="4db-Ks-G5W"/>
+                    </constraints>
+                    <state key="normal" title="Yes">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="onClickYes:" destination="GbG-xS-NRE" eventType="touchUpInside" id="5UH-z3-LEk"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qpn-c5-VcD">
+                    <rect key="frame" x="0.0" y="5" width="50" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="Sux-Ln-HwU"/>
+                        <constraint firstAttribute="height" constant="30" id="yEm-Xl-3YQ"/>
+                    </constraints>
+                    <state key="normal" title="No">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="onClickNo:" destination="GbG-xS-NRE" eventType="touchUpInside" id="mJu-Yv-6GI"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="4ka-68-pYz" firstAttribute="top" secondItem="GbG-xS-NRE" secondAttribute="top" constant="5" id="4lh-gA-JFM"/>
+                <constraint firstItem="Qpn-c5-VcD" firstAttribute="leading" secondItem="GbG-xS-NRE" secondAttribute="leading" id="6mx-Vz-lBY"/>
+                <constraint firstItem="cvz-bz-tW3" firstAttribute="top" secondItem="GbG-xS-NRE" secondAttribute="top" constant="10" id="7Jm-nA-hlO"/>
+                <constraint firstAttribute="centerX" secondItem="cvz-bz-tW3" secondAttribute="centerX" id="G45-2f-Hp1"/>
+                <constraint firstItem="Qpn-c5-VcD" firstAttribute="top" secondItem="GbG-xS-NRE" secondAttribute="top" constant="5" id="H8r-Ku-6ak"/>
+                <constraint firstAttribute="trailing" secondItem="Vnh-yS-d6G" secondAttribute="trailing" id="XBR-jB-Fii"/>
+                <constraint firstAttribute="trailing" secondItem="4ka-68-pYz" secondAttribute="trailing" id="mg5-h4-h5d"/>
+                <constraint firstAttribute="bottom" secondItem="Vnh-yS-d6G" secondAttribute="bottom" id="vMm-vs-GFt"/>
+                <constraint firstItem="Vnh-yS-d6G" firstAttribute="leading" secondItem="GbG-xS-NRE" secondAttribute="leading" id="vjk-VS-SMy"/>
+            </constraints>
+            <connections>
+                <outlet property="scrollView" destination="Vnh-yS-d6G" id="ttL-6w-5i1"/>
+                <outlet property="valueLabel" destination="cvz-bz-tW3" id="uj3-5A-VQO"/>
+            </connections>
+        </view>
+    </objects>
+</document>

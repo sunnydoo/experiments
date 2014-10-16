@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[ImageTools createSaturationFilter:]:ImageTools.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ViewController newImageLoaded:]:ViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.imageView.frame">
+            </PersistentString>
+            <PersistentString
+               value = "self.imageView.frame.size">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "__31-[ViewController valueUpdated:]_block_invoke:ViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[CVCell initWithFrame:]:CVCell.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ImageTools applyExposure:]:ImageTools.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ViewController valueUpdated:]:ViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.currentFilter">
+            </PersistentString>
+            <PersistentString
+               value = "[params objectForKey:@&quot;value&quot;]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ImageTools filterImage:filterName:]:ImageTools.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ScrollSelectView updateByFilter:]:ScrollSelectView.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "(self.currentRulerValue - self.rulerMin) / (self.rulerMax - self.rulerMin)">
+            </PersistentString>
+            <PersistentString
+               value = "(self.currentRulerValue - self.rulerMin) / (self.rulerMax - self.rulerMin) * self.scrollView.contentSize.width">
+            </PersistentString>
+            <PersistentString
+               value = "self.scrollView.contentSize.width">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ImageTools createExposureFilter:]:ImageTools.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[params objectForKey:@&quot;param1&quot;]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ViewController collectionView:numberOfItemsInSection:]:ViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ImageTools createFilter:]:ImageTools.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ScrollSelectView initWithFrame:]:ScrollSelectView.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[arrayOfViews objectAtIndex:0]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[LooksCollectionView filterImage:]:LooksCollectionView.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ViewController imagePickerController:didFinishPickingMediaWithInfo:]:ViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ScrollSelectView refreshRuleType:]:ScrollSelectView.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[[ruleTypeInfo objectForKey:@&quot;max&quot;] floatValue]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ScrollSelectView show:]:ScrollSelectView.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ImageTools createContrastFilter:]:ImageTools.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[LooksCollectionView collectionView:didSelectItemAtIndexPath:]:LooksCollectionView.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[LooksCollectionView awakeFromNib]:LooksCollectionView.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ScrollSelectView initSubviews:]:ScrollSelectView.m">
+      </ContextState>
+      <ContextState
+         contextName = "+[ImageTools scaleToSize:image:]:ImageTools.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "image.size">
+            </PersistentString>
+            <PersistentString
+               value = "image.imageOrientation">
+            </PersistentString>
+            <PersistentString
+               value = "scaledImage.size">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "__24-[ScrollSelectView hide]_block_invoke:ScrollSelectView.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "tempFrame.size.height + SCROLL_VIEW_HEIGHT / 2">
+            </PersistentString>
+            <PersistentString
+               value = "tempFrame.size.height+SCROLL_VIEW_HEIGHT ">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ScrollSelectView scrollViewDidScroll:]:ScrollSelectView.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[LooksCollectionView initDictionary]:LooksCollectionView.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[LooksCollectionView initImages:]:LooksCollectionView.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "print (int)[indexPath row]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ViewController viewDidLoad]:ViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ViewController lookSelected:]:ViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.looksCollectionView.constraints">
+            </PersistentString>
+            <PersistentString
+               value = "notify.userInfo">
+            </PersistentString>
+            <PersistentString
+               value = "self.scrollSelectView.constraints">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[LooksCollectionView collectionView:cellForItemAtIndexPath:]:LooksCollectionView.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "cell.nameInContent">
+            </PersistentString>
+            <PersistentString
+               value = "imageView.image">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[RulerType rulerValueToFilterValue:value:]:RulerType.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "(value - self.rulerMin) / (self.rulerMax - self.rulerMin) * (max - min)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
