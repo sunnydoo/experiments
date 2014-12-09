@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D286BA41A36EF8C00A89575 /* fast.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1D286BA21A36EF8C00A89575 /* fast.mp3 */; };
+		1D286BA51A36EF8C00A89575 /* slow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1D286BA31A36EF8C00A89575 /* slow.mp3 */; };
 		2F360BB017692C4700D9A404 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F360BAE17692C4700D9A404 /* InfoPlist.strings */; };
 		2F360BB217692C4700D9A404 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F360BB117692C4700D9A404 /* main.m */; };
 		2F360BB617692C4700D9A404 /* AVCamAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F360BB517692C4700D9A404 /* AVCamAppDelegate.m */; };
@@ -18,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1D286BA21A36EF8C00A89575 /* fast.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = fast.mp3; path = Resources/fast.mp3; sourceTree = "<group>"; };
+		1D286BA31A36EF8C00A89575 /* slow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = slow.mp3; path = Resources/slow.mp3; sourceTree = "<group>"; };
 		2F360BA217692C4700D9A404 /* AVCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AVCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F360BAD17692C4700D9A404 /* AVCam-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AVCam-Info.plist"; sourceTree = "<group>"; };
 		2F360BAF17692C4700D9A404 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -70,6 +74,8 @@
 		2F360BAC17692C4700D9A404 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1D286BA21A36EF8C00A89575 /* fast.mp3 */,
+				1D286BA31A36EF8C00A89575 /* slow.mp3 */,
 				2F360BAD17692C4700D9A404 /* AVCam-Info.plist */,
 				2F360BAE17692C4700D9A404 /* InfoPlist.strings */,
 				2F360BB117692C4700D9A404 /* main.m */,
@@ -138,6 +144,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D286BA41A36EF8C00A89575 /* fast.mp3 in Resources */,
+				1D286BA51A36EF8C00A89575 /* slow.mp3 in Resources */,
 				2F360BC117692C4700D9A404 /* Images.xcassets in Resources */,
 				2F360BB017692C4700D9A404 /* InfoPlist.strings in Resources */,
 				2F45C1D5177676670052A7F9 /* Main_iPhone.storyboard in Resources */,

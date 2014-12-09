@@ -445,14 +445,25 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
     
     double videoScaleFactor = [[self captureMode] isEqualToString: @"fastmo"] ? 0.4 : 4.0;
     CMTime videoDuration = videoAsset.duration;
+    CMTime newVideoDuration = CMTimeMake(videoDuration.value*videoScaleFactor, videoDuration.timescale);
     
     [mutableCompositionVideoTrack scaleTimeRange: CMTimeRangeMake( kCMTimeZero, videoDuration)
-                                      toDuration: CMTimeMake(videoDuration.value*videoScaleFactor, videoDuration.timescale)];
-    
-    
+                                      toDuration: newVideoDuration ];
     
     //Video Orientation Is Wrong, correct it.
     [mutableCompositionVideoTrack setPreferredTransform: videoAssetTrack.preferredTransform ];
+    
+    //Add background audio
+    NSString* audioName = [[self captureMode] isEqualToString: @"fastmo"] ? @"fast" : @"slow";
+    NSString* audioPath = [[NSBundle mainBundle] pathForResource: audioName ofType:@"mp3"];
+    NSURL* audioURL = [NSURL fileURLWithPath:audioPath];
+
+    AVAsset *backgdAudioAsset = [AVURLAsset URLAssetWithURL:audioURL options:nil];
+    AVAssetTrack *backgdAudioTrack = [[backgdAudioAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0];
+
+    AVMutableCompositionTrack *mutableCompositionAudioTrack = [mutableComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+
+    [mutableCompositionAudioTrack insertTimeRange: CMTimeRangeMake( kCMTimeZero, newVideoDuration) ofTrack:backgdAudioTrack atTime: kCMTimeZero error: nil] ;
     
     AVAssetExportSession* assetExport = [[AVAssetExportSession alloc] initWithAsset: mutableComposition presetName:AVAssetExportPresetMediumQuality];
     
