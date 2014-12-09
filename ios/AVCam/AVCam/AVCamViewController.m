@@ -60,21 +60,23 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 
 // For use in the storyboards.
 @property (nonatomic, weak) IBOutlet AVCamPreviewView *previewView;
-@property (nonatomic, weak) IBOutlet UIButton *recordButton;
 @property (nonatomic, weak) IBOutlet UIButton *cameraButton;
-@property (nonatomic, weak) IBOutlet UIButton *stillButton;
+@property (weak, nonatomic) IBOutlet UIButton *fastmoButton;
+@property (weak, nonatomic) IBOutlet UIButton *slowmoButton;
 
-- (IBAction)toggleMovieRecording:(id)sender;
+
+- (IBAction)toggleFastmoRecording:(id)sender;
+- (IBAction)toggleSlowmoRecording:(id)sender;
 - (IBAction)changeCamera:(id)sender;
-- (IBAction)snapStillImage:(id)sender;
 - (IBAction)focusAndExposeTap:(UIGestureRecognizer *)gestureRecognizer;
+
+- (void)toggleMovieRecording;
 
 // Session management.
 @property (nonatomic) dispatch_queue_t sessionQueue; // Communicate with the session and other session objects on this queue.
 @property (nonatomic) AVCaptureSession *session;
 @property (nonatomic) AVCaptureDeviceInput *videoDeviceInput;
 @property (nonatomic) AVCaptureMovieFileOutput *movieFileOutput;
-@property (nonatomic) AVCaptureStillImageOutput *stillImageOutput;
 
 // Utilities.
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundRecordingID;
@@ -82,6 +84,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 @property (nonatomic, readonly, getter = isSessionRunningAndDeviceAuthorized) BOOL sessionRunningAndDeviceAuthorized;
 @property (nonatomic) BOOL lockInterfaceRotation;
 @property (nonatomic) id runtimeErrorHandlingObserver;
+@property (nonatomic) NSString* captureMode;
 
 @end
 
@@ -167,14 +170,6 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 				[connection setEnablesVideoStabilizationWhenAvailable:YES];
 			[self setMovieFileOutput:movieFileOutput];
 		}
-		
-		AVCaptureStillImageOutput *stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
-		if ([session canAddOutput:stillImageOutput])
-		{
-			[stillImageOutput setOutputSettings:@{AVVideoCodecKey : AVVideoCodecJPEG}];
-			[session addOutput:stillImageOutput];
-			[self setStillImageOutput:stillImageOutput];
-		}
 	});
 }
 
@@ -182,7 +177,6 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 {
 	dispatch_async([self sessionQueue], ^{
 		[self addObserver:self forKeyPath:@"sessionRunningAndDeviceAuthorized" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:SessionRunningAndDeviceAuthorizedContext];
-		[self addObserver:self forKeyPath:@"stillImageOutput.capturingStillImage" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:CapturingStillImageContext];
 		[self addObserver:self forKeyPath:@"movieFileOutput.recording" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:RecordingContext];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:[[self videoDeviceInput] device]];
 		
@@ -192,7 +186,8 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 			dispatch_async([strongSelf sessionQueue], ^{
 				// Manually restarting the session since it must have been stopped due to an error.
 				[[strongSelf session] startRunning];
-				[[strongSelf recordButton] setTitle:NSLocalizedString(@"Record", @"Recording button record title") forState:UIControlStateNormal];
+				[[strongSelf fastmoButton] setTitle:NSLocalizedString(@"FASTMO", @"FASTMO Recording button record title") forState:UIControlStateNormal];
+                [[strongSelf slowmoButton] setTitle:NSLocalizedString(@"SLOWMO", @"FASTMO Recording button record title") forState:UIControlStateNormal];
 			});
 		}]];
 		[[self session] startRunning];
@@ -208,7 +203,6 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 		[[NSNotificationCenter defaultCenter] removeObserver:[self runtimeErrorHandlingObserver]];
 		
 		[self removeObserver:self forKeyPath:@"sessionRunningAndDeviceAuthorized" context:SessionRunningAndDeviceAuthorizedContext];
-		[self removeObserver:self forKeyPath:@"stillImageOutput.capturingStillImage" context:CapturingStillImageContext];
 		[self removeObserver:self forKeyPath:@"movieFileOutput.recording" context:RecordingContext];
 	});
 }
@@ -236,32 +230,42 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	if (context == CapturingStillImageContext)
-	{
-		BOOL isCapturingStillImage = [change[NSKeyValueChangeNewKey] boolValue];
-		
-		if (isCapturingStillImage)
-		{
-			[self runStillImageCaptureAnimation];
-		}
-	}
-	else if (context == RecordingContext)
+
+    if (context == RecordingContext)
 	{
 		BOOL isRecording = [change[NSKeyValueChangeNewKey] boolValue];
 		
 		dispatch_async(dispatch_get_main_queue(), ^{
-			if (isRecording)
-			{
-				[[self cameraButton] setEnabled:NO];
-				[[self recordButton] setTitle:NSLocalizedString(@"Stop", @"Recording button stop title") forState:UIControlStateNormal];
-				[[self recordButton] setEnabled:YES];
-			}
-			else
-			{
-				[[self cameraButton] setEnabled:YES];
-				[[self recordButton] setTitle:NSLocalizedString(@"Record", @"Recording button record title") forState:UIControlStateNormal];
-				[[self recordButton] setEnabled:YES];
-			}
+            if ( [[self captureMode] isEqualToString: @"fastmo" ]) {
+                if (isRecording)
+                {
+                    [[self cameraButton] setEnabled:NO];
+                    [[self fastmoButton] setTitle:NSLocalizedString(@"STOP", @"FASTMO Recording button stop title") forState:UIControlStateNormal];
+                    [[self fastmoButton] setEnabled:YES];
+                    
+                }
+                else
+                {
+                    [[self cameraButton] setEnabled:YES];
+                    [[self fastmoButton] setTitle:NSLocalizedString(@"FASTMO", @"FASTMO Recording button record title") forState:UIControlStateNormal];
+                    [[self fastmoButton] setEnabled:YES];
+                }
+            }
+            else if( [[self captureMode] isEqualToString: @"slowmo" ]) {
+                if (isRecording)
+                {
+                    [[self cameraButton] setEnabled:NO];
+                    [[self slowmoButton] setTitle:NSLocalizedString(@"STOP", @"SLOWMO Recording button stop title") forState:UIControlStateNormal];
+                    [[self slowmoButton] setEnabled:YES];
+                    
+                }
+                else
+                {
+                    [[self cameraButton] setEnabled:YES];
+                    [[self slowmoButton] setTitle:NSLocalizedString(@"SLOWMO", @"SLOWMO Recording button record title") forState:UIControlStateNormal];
+                    [[self slowmoButton] setEnabled:YES];
+                }
+            }
 		});
 	}
 	else if (context == SessionRunningAndDeviceAuthorizedContext)
@@ -272,14 +276,14 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 			if (isRunning)
 			{
 				[[self cameraButton] setEnabled:YES];
-				[[self recordButton] setEnabled:YES];
-				[[self stillButton] setEnabled:YES];
+				[[self fastmoButton] setEnabled:YES];
+				[[self slowmoButton] setEnabled:YES];
 			}
 			else
 			{
 				[[self cameraButton] setEnabled:NO];
-				[[self recordButton] setEnabled:NO];
-				[[self stillButton] setEnabled:NO];
+				[[self fastmoButton] setEnabled:NO];
+				[[self slowmoButton] setEnabled:NO];
 			}
 		});
 	}
@@ -291,10 +295,20 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 
 #pragma mark Actions
 
-- (IBAction)toggleMovieRecording:(id)sender
+- (IBAction)toggleFastmoRecording:(id)sender {
+    [self setCaptureMode: @"fastmo"];
+    [[self fastmoButton] setEnabled:NO];
+    [self toggleMovieRecording ];
+}
+
+- (IBAction)toggleSlowmoRecording:(id)sender {
+    [self setCaptureMode: @"slowmo"];
+    [[self slowmoButton] setEnabled:NO];
+    [self toggleMovieRecording ];
+}
+
+- (void)toggleMovieRecording
 {
-	[[self recordButton] setEnabled:NO];
-	
 	dispatch_async([self sessionQueue], ^{
 		if (![[self movieFileOutput] isRecording])
 		{
@@ -326,8 +340,8 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 - (IBAction)changeCamera:(id)sender
 {
 	[[self cameraButton] setEnabled:NO];
-	[[self recordButton] setEnabled:NO];
-	[[self stillButton] setEnabled:NO];
+	[[self fastmoButton] setEnabled:NO];
+	[[self slowmoButton] setEnabled:NO];
 	
 	dispatch_async([self sessionQueue], ^{
 		AVCaptureDevice *currentVideoDevice = [[self videoDeviceInput] device];
@@ -372,33 +386,33 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 		
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[[self cameraButton] setEnabled:YES];
-			[[self recordButton] setEnabled:YES];
-			[[self stillButton] setEnabled:YES];
+			[[self fastmoButton] setEnabled:YES];
+			[[self slowmoButton] setEnabled:YES];
 		});
 	});
 }
 
-- (IBAction)snapStillImage:(id)sender
-{
-	dispatch_async([self sessionQueue], ^{
-		// Update the orientation on the still image output video connection before capturing.
-		[[[self stillImageOutput] connectionWithMediaType:AVMediaTypeVideo] setVideoOrientation:[[(AVCaptureVideoPreviewLayer *)[[self previewView] layer] connection] videoOrientation]];
-		
-		// Flash set to Auto for Still Capture
-		[AVCamViewController setFlashMode:AVCaptureFlashModeAuto forDevice:[[self videoDeviceInput] device]];
-		
-		// Capture a still image.
-		[[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:[[self stillImageOutput] connectionWithMediaType:AVMediaTypeVideo] completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-			
-			if (imageDataSampleBuffer)
-			{
-				NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-				UIImage *image = [[UIImage alloc] initWithData:imageData];
-				[[[ALAssetsLibrary alloc] init] writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];
-			}
-		}];
-	});
-}
+//- (IBAction)snapStillImage:(id)sender
+//{
+//	dispatch_async([self sessionQueue], ^{
+//		// Update the orientation on the still image output video connection before capturing.
+//		[[[self stillImageOutput] connectionWithMediaType:AVMediaTypeVideo] setVideoOrientation:[[(AVCaptureVideoPreviewLayer *)[[self previewView] layer] connection] videoOrientation]];
+//		
+//		// Flash set to Auto for Still Capture
+//		[AVCamViewController setFlashMode:AVCaptureFlashModeAuto forDevice:[[self videoDeviceInput] device]];
+//		
+//		// Capture a still image.
+//		[[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:[[self stillImageOutput] connectionWithMediaType:AVMediaTypeVideo] completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+//			
+//			if (imageDataSampleBuffer)
+//			{
+//				NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+//				UIImage *image = [[UIImage alloc] initWithData:imageData];
+//				[[[ALAssetsLibrary alloc] init] writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];
+//			}
+//		}];
+//	});
+//}
 
 - (IBAction)focusAndExposeTap:(UIGestureRecognizer *)gestureRecognizer
 {
@@ -428,8 +442,8 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
     AVMutableCompositionTrack *mutableCompositionVideoTrack = [mutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
     
     [mutableCompositionVideoTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero,videoAssetTrack.timeRange.duration) ofTrack:videoAssetTrack atTime:kCMTimeZero error:nil];
-
-    double videoScaleFactor = 0.2;
+    
+    double videoScaleFactor = [[self captureMode] isEqualToString: @"fastmo"] ? 0.4 : 4.0;
     CMTime videoDuration = videoAsset.duration;
     
     [mutableCompositionVideoTrack scaleTimeRange: CMTimeRangeMake( kCMTimeZero, videoDuration)

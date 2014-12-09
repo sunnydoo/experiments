@@ -28,12 +28,12 @@
                                             <constraint firstAttribute="width" constant="72" id="QMd-IJ-21V"/>
                                             <constraint firstAttribute="height" constant="30" id="n1T-X2-T2s"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <state key="normal" title="Record">
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="FASTMO">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="toggleMovieRecording:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="2wa-Oy-RfQ"/>
+                                            <action selector="toggleFastmoRecording:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="oWd-92-CIK"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JI8-7Z-lWW">
@@ -42,12 +42,12 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="72" id="Omq-Uf-Bqn"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <state key="normal" title="Still">
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="SLOWMO">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="snapStillImage:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="mhO-gK-EhH"/>
+                                            <action selector="toggleSlowmoRecording:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="VFe-xS-WNa"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f4y-iM-g40">
@@ -56,8 +56,8 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="72" id="SJq-FL-CMd"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <state key="normal" title="Camera">
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="CAMERA">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -94,9 +94,9 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <connections>
                         <outlet property="cameraButton" destination="f4y-iM-g40" id="UG1-1g-xMf"/>
+                        <outlet property="fastmoButton" destination="ghq-cJ-efm" id="gqq-vj-dDu"/>
                         <outlet property="previewView" destination="sVI-mX-69Q" id="UGh-um-teZ"/>
-                        <outlet property="recordButton" destination="ghq-cJ-efm" id="Tcb-VB-crw"/>
-                        <outlet property="stillButton" destination="JI8-7Z-lWW" id="oT3-f6-Uvt"/>
+                        <outlet property="slowmoButton" destination="JI8-7Z-lWW" id="6re-9m-QD3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
