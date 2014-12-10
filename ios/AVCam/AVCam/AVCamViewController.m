@@ -170,6 +170,9 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 				[connection setEnablesVideoStabilizationWhenAvailable:YES];
 			[self setMovieFileOutput:movieFileOutput];
 		}
+        
+        [self switchFormatWithDesiredFPS: 120.0 forDevice: videoDevice ];
+        
 	});
 }
 
@@ -295,6 +298,43 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 
 #pragma mark Actions
 
+- (void)switchFormatWithDesiredFPS: (CGFloat) desiredFPS forDevice: (AVCaptureDevice *)videoDevice
+{
+    AVCaptureDeviceFormat *selectedFormat = nil;
+    int32_t maxWidth = 0;
+    AVFrameRateRange *frameRateRange = nil;
+    
+    for (AVCaptureDeviceFormat *format in [videoDevice formats]) {
+        
+        for (AVFrameRateRange *range in format.videoSupportedFrameRateRanges) {
+            
+            CMFormatDescriptionRef desc = format.formatDescription;
+            CMVideoDimensions dimensions = CMVideoFormatDescriptionGetDimensions(desc);
+            int32_t width = dimensions.width;
+            
+            if (range.minFrameRate <= desiredFPS && desiredFPS <= range.maxFrameRate && width >= maxWidth) {
+                
+                selectedFormat = format;
+                frameRateRange = range;
+                maxWidth = width;
+            }
+        }
+    }
+    
+    if (selectedFormat) {
+        
+        if ([videoDevice lockForConfiguration:nil]) {
+            
+            NSLog(@"selected format:%@", selectedFormat);
+            videoDevice.activeFormat = selectedFormat;
+            videoDevice.activeVideoMinFrameDuration = CMTimeMake(1, (int32_t)desiredFPS);
+            videoDevice.activeVideoMaxFrameDuration = CMTimeMake(1, (int32_t)desiredFPS);
+            [videoDevice unlockForConfiguration];
+        }
+    }
+}
+
+
 - (IBAction)toggleFastmoRecording:(id)sender {
     [self setCaptureMode: @"fastmo"];
     [[self fastmoButton] setEnabled:NO];
@@ -302,6 +342,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 }
 
 - (IBAction)toggleSlowmoRecording:(id)sender {
+    
     [self setCaptureMode: @"slowmo"];
     [[self slowmoButton] setEnabled:NO];
     [self toggleMovieRecording ];
@@ -426,9 +467,24 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 	[self focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:devicePoint monitorSubjectAreaChange:NO];
 }
 
-#pragma mark File Output Delegate
+#pragma Utilities Methods
+- (void) saveVideoFileToPhotos: (NSURL*) fileURL
+{
+    [[[ALAssetsLibrary alloc] init] writeVideoAtPathToSavedPhotosAlbum:fileURL completionBlock:^(NSURL *assetURL, NSError *error) {
+        if (error)
+            NSLog(@"%@", error);
+        
+        [[NSFileManager defaultManager] removeItemAtURL:fileURL error:nil];
+        
+        UIBackgroundTaskIdentifier backgroundRecordingID = [self backgroundRecordingID];
+        [self setBackgroundRecordingID:UIBackgroundTaskInvalid];
+        
+        if (backgroundRecordingID != UIBackgroundTaskInvalid)
+            [[UIApplication sharedApplication] endBackgroundTask:backgroundRecordingID];
+    }];
+}
 
-- (void) videoAssetProcessing : (NSURL *) videoFileURL
+- (void) processFastmoVideo : (NSURL *) videoFileURL
 {
     // Create Asset
     NSDictionary *options = @{ AVURLAssetPreferPreciseDurationAndTimingKey : @YES };
@@ -443,7 +499,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
     
     [mutableCompositionVideoTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero,videoAssetTrack.timeRange.duration) ofTrack:videoAssetTrack atTime:kCMTimeZero error:nil];
     
-    double videoScaleFactor = [[self captureMode] isEqualToString: @"fastmo"] ? 0.4 : 4.0;
+    double videoScaleFactor = 0.5;
     CMTime videoDuration = videoAsset.duration;
     CMTime newVideoDuration = CMTimeMake(videoDuration.value*videoScaleFactor, videoDuration.timescale);
     
@@ -454,8 +510,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
     [mutableCompositionVideoTrack setPreferredTransform: videoAssetTrack.preferredTransform ];
     
     //Add background audio
-    NSString* audioName = [[self captureMode] isEqualToString: @"fastmo"] ? @"fast" : @"slow";
-    NSString* audioPath = [[NSBundle mainBundle] pathForResource: audioName ofType:@"mp3"];
+    NSString* audioPath = [[NSBundle mainBundle] pathForResource: @"fast" ofType:@"mp3"];
     NSURL* audioURL = [NSURL fileURLWithPath:audioPath];
 
     AVAsset *backgdAudioAsset = [AVURLAsset URLAssetWithURL:audioURL options:nil];
@@ -482,37 +537,14 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
                 NSLog(@"Export canceled");
                 break;
             default:
-                [[[ALAssetsLibrary alloc] init] writeVideoAtPathToSavedPhotosAlbum:newVideoURL completionBlock:^(NSURL *assetURL, NSError *error) {
-                    if (error)
-                        NSLog(@"%@", error);
-                    
-                    [[NSFileManager defaultManager] removeItemAtURL:videoFileURL error:nil];
-                    [[NSFileManager defaultManager] removeItemAtURL:newVideoURL error:nil];
-                    
-                    UIBackgroundTaskIdentifier backgroundRecordingID = [self backgroundRecordingID];
-                    [self setBackgroundRecordingID:UIBackgroundTaskInvalid];
-                    
-                    if (backgroundRecordingID != UIBackgroundTaskInvalid)
-                        [[UIApplication sharedApplication] endBackgroundTask:backgroundRecordingID];
-                }];
+                [[NSFileManager defaultManager] removeItemAtURL:videoFileURL error:nil];
+                [self saveVideoFileToPhotos: newVideoURL ];
                 break;
         }
     }];
-    
-//    AVMutableVideoCompositionInstruction *mutableVideoCompositionInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
-//
-//    mutableVideoCompositionInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, mutableComposition.duration);
-//    mutableVideoCompositionInstruction.backgroundColor = [[UIColor redColor] CGColor];
-
-    
-    
-    // Create the audio composition track.
-    // AVMutableCompositionTrack *mutableCompositionAudioTrack = [mutableComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
-
-    
-    
-    
 }
+
+#pragma mark File Output Delegate
 
 - (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error
 {
@@ -523,22 +555,12 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 	
 	// Note the backgroundRecordingID for use in the ALAssetsLibrary completion handler to end the background task associated with this recording. This allows a new recording to be started, associated with a new UIBackgroundTaskIdentifier, once the movie file output's -isRecording is back to NO — which happens sometime after this method returns.
 	
-    
-    [self videoAssetProcessing: outputFileURL ];
-    
-//    [[[ALAssetsLibrary alloc] init] writeVideoAtPathToSavedPhotosAlbum:outputFileURL completionBlock:^(NSURL *assetURL, NSError *error) {
-//        if (error)
-//            NSLog(@"%@", error);
-//        
-//        [[NSFileManager defaultManager] removeItemAtURL:outputFileURL error:nil];
-//        
-//        UIBackgroundTaskIdentifier backgroundRecordingID = [self backgroundRecordingID];
-//        [self setBackgroundRecordingID:UIBackgroundTaskInvalid];
-//        
-//        if (backgroundRecordingID != UIBackgroundTaskInvalid)
-//            [[UIApplication sharedApplication] endBackgroundTask:backgroundRecordingID];
-//    }];
-    
+    if ( [[self captureMode] isEqualToString: @"fastmo"] ) {
+        [self processFastmoVideo: outputFileURL ];
+    }
+    else {
+        [ self saveVideoFileToPhotos: outputFileURL];
+    }
 }
 
 #pragma mark Device Configuration
