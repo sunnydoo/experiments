@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1D286BA41A36EF8C00A89575 /* fast.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1D286BA21A36EF8C00A89575 /* fast.mp3 */; };
 		1D286BA51A36EF8C00A89575 /* slow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1D286BA31A36EF8C00A89575 /* slow.mp3 */; };
+		1D5983381A42CED20082D1EF /* MovieRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D5983371A42CED20082D1EF /* MovieRecorder.m */; };
 		2F360BB017692C4700D9A404 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F360BAE17692C4700D9A404 /* InfoPlist.strings */; };
 		2F360BB217692C4700D9A404 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F360BB117692C4700D9A404 /* main.m */; };
 		2F360BB617692C4700D9A404 /* AVCamAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F360BB517692C4700D9A404 /* AVCamAppDelegate.m */; };
@@ -22,6 +23,8 @@
 /* Begin PBXFileReference section */
 		1D286BA21A36EF8C00A89575 /* fast.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = fast.mp3; path = Resources/fast.mp3; sourceTree = "<group>"; };
 		1D286BA31A36EF8C00A89575 /* slow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = slow.mp3; path = Resources/slow.mp3; sourceTree = "<group>"; };
+		1D5983361A42CED20082D1EF /* MovieRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieRecorder.h; sourceTree = "<group>"; };
+		1D5983371A42CED20082D1EF /* MovieRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieRecorder.m; sourceTree = "<group>"; };
 		2F360BA217692C4700D9A404 /* AVCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AVCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F360BAD17692C4700D9A404 /* AVCam-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AVCam-Info.plist"; sourceTree = "<group>"; };
 		2F360BAF17692C4700D9A404 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -57,6 +60,8 @@
 		2F360BAB17692C4700D9A404 /* AVCam */ = {
 			isa = PBXGroup;
 			children = (
+				1D5983361A42CED20082D1EF /* MovieRecorder.h */,
+				1D5983371A42CED20082D1EF /* MovieRecorder.m */,
 				2F360BB417692C4700D9A404 /* AVCamAppDelegate.h */,
 				2F360BB517692C4700D9A404 /* AVCamAppDelegate.m */,
 				2F360BBD17692C4700D9A404 /* AVCamViewController.h */,
@@ -164,6 +169,7 @@
 				2F360BBF17692C4700D9A404 /* AVCamViewController.m in Sources */,
 				2FDA781D176DB79700509279 /* AVCamPreviewView.m in Sources */,
 				2F360BB617692C4700D9A404 /* AVCamAppDelegate.m in Sources */,
+				1D5983381A42CED20082D1EF /* MovieRecorder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
