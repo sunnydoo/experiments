@@ -4,7 +4,7 @@ var log = function( msg ) {
 }
 
 var sep = function( msg ) {
-	log("\n----------------------------------");
+	log("\n" + (new Array(60)).join('-'));
 	if ( msg ) {
 		log(msg);
 	};
@@ -191,3 +191,47 @@ log( Object.getOwnPropertyDescriptor( newProp, "y").toString() );
 
 // 12. JS Array
 sep("Array");
+log("JS Array is special that its elements can have different types.");
+log("Array is object. [] is used same as other objects. a[1] actually is a['1'] ");
+
+var a = ["Hello"];
+a["1"] = " My ";
+a[2.0000] = "Friend";
+log(a[0] + a[1] + a[2]);
+a.push("Aligaduo", "Gedayimasi");
+
+//add a new method to all array.
+Array.method("count", function()  {
+	var count = 0;
+	log("The Length of " + this.length );
+	for( var i = 0;  i < this.length; i++) {
+		if( this[i] ) count += 1;
+	}
+	return count;
+})
+
+// for/in will print methods in its prototype, so avoid it.
+// hasOwnProperty will filter out these methods.
+for(var index in a){
+	if( a.hasOwnProperty(index))
+		log(a[index]);
+}
+
+log( a.count() );
+
+// forEach will only print all its own properties, Nice. 
+a.forEach(function(x) { log(x); });
+log( a.join(" => ") );
+
+// ECMAScript 5 new methods.
+var aa = [2, 3, 4];
+// map creates a new array.
+log( aa.map( function(x) {return x*x}).join());   // 1, 4, 9
+log( aa.every( function(x) { return x < 10}));  // all elements less than 10
+log( aa.some( function(x) { return x < 2})); // exists one  < 2.
+//use reduce to sum, Haskell fold
+log( aa.reduce( function(x, y) { return x+y;}, 10));
+log( aa.reduceRight( function(x,y) { return Math.pow(y,x)}));
+log("Index Of " + aa.indexOf(3));
+
+
